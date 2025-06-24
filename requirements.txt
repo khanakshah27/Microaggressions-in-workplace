@@ -1,7 +1,9 @@
-pandas
+streamlit
 spacy
 scikit-learn
-joblib
+textblob
+nltk
 sentence-transformers
 faiss-cpu
-streamlit
+joblib
+blis==0.7.9 
