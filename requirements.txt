@@ -6,4 +6,5 @@ nltk
 sentence-transformers
 faiss-cpu
 joblib
-blis==0.7.9 
+blis
+
