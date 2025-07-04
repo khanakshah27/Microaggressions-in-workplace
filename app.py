@@ -1,3 +1,7 @@
+import os
+import nltk
+nltk.data.path.append(os.path.join(os.path.dirname(__file__), 'nltk_data'))
+
 import pandas as pd
 import numpy as np
 import string
@@ -11,9 +15,9 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report, accuracy_score
 
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+#nltk.download('punkt')
+#nltk.download('wordnet')
+#nltk.download('omw-1.4')
 
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
