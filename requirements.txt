@@ -1,10 +1,5 @@
 streamlit
+pandas
 spacy
 scikit-learn
-textblob
-nltk
-sentence-transformers
-faiss-cpu
-joblib
-blis
 
