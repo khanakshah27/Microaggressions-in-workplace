@@ -9,7 +9,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score
 import streamlit as st
 
-# Load spacy model at global scope
 try:
     nlp = spacy.load("en_core_web_sm")
 except:
@@ -47,12 +46,11 @@ def classify(text, model):
     prediction = model.predict([text])[0]
     return "Microaggression" if prediction == 1 else "Not a microaggression"
 
-# Streamlit UI
-st.title("🚨 Microaggressions Detector")
+st.title("Microaggressions Detector")
 st.write("Enter workplace text to check for microaggressions.")
 
 model = train_pipeline()
-user_input = st.text_area("✍️ Enter your sentence:")
+user_input = st.text_area("Enter your sentence:")
 
 if st.button("Classify"):
     if user_input.strip():
