@@ -1,5 +1,0 @@
-pandas
-spacy
-joblib
-scikit-learn
-numpy
