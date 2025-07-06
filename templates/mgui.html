@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Microaggression Detector</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffeef8 0%, #f8d7da 50%, #ffc1cc 100%);
+      min-height: 100vh;
+      font-family: 'Arial', sans-serif;
+    }
+    .card {
+      box-shadow: 0 8px 32px rgba(255, 182, 193, 0.3);
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    .card h2 {
+      color: #d63384;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(214, 51, 132, 0.1);
+    }
+    .form-label {
+      color: #d63384;
+      font-weight: 500;
+    }
+    .form-control {
+      border: 2px solid #f8d7da;
+      border-radius: 12px;
+      padding: 12px;
+      transition: all 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #d63384;
+      box-shadow: 0 0 0 0.2rem rgba(214, 51, 132, 0.25);
+    }
+    .btn-primary {
+      background: linear-gradient(45deg, #d63384, #f8d7da);
+      border: none;
+      border-radius: 12px;
+      padding: 12px 30px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(214, 51, 132, 0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(45deg, #b02a5b, #d63384);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+    }
+    .btn-primary:focus {
+      box-shadow: 0 0 0 0.2rem rgba(214, 51, 132, 0.5);
+    }
+    #resultSection {
+      display: none;
+      border-radius: 12px;
+      border: none;
+    }
+    .alert-danger {
+      background: linear-gradient(45deg, #f8d7da, #f1aeb5);
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .alert-warning {
+      background: linear-gradient(45deg, #fff3cd, #ffeaa7);
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+    .alert-success {
+      background: linear-gradient(45deg, #d1f2eb, #a3e4d7);
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 w-100" style="max-width: 600px;">
+      <h2 class="text-center mb-4">Microaggression Text Classifier</h2>
+      <form id="classifierForm">
+        <div class="mb-3">
+          <label for="text" class="form-label">Enter your sentence:</label>
+          <textarea class="form-control" id="text" name="text" rows="4" required placeholder="Enter Text"></textarea>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Classify</button>
+        </div>
+      </form>
+      
+      <div id="resultSection" class="alert mt-4" role="alert">
+        <h5 id="resultText"></h5>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("classifierForm");
+    const resultSection = document.getElementById("resultSection");
+    const resultText = document.getElementById("resultText");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = document.getElementById("text").value;
+
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        resultText.textContent = data.error;
+        resultSection.className = "alert alert-danger mt-4";
+      } else {
+        resultText.textContent = data.isMicroaggression ? "Microaggression Detected" : "No Microaggression";
+        resultSection.className = data.isMicroaggression ? "alert alert-warning" : "alert alert-success";
+      }
+
+      resultSection.style.display = "block";
+    });
+  </script>
+</body>
+</html> 
